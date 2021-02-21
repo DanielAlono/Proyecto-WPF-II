@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Proyecto_WPF__II_.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="apiEndPoint" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://dint2021.azurewebsites.net/api</Value>
+    </Setting>
+    <Setting Name="diaActual" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2021-02-20</Value>
+    </Setting>
+    <Setting Name="precioEntrada" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">5.5</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

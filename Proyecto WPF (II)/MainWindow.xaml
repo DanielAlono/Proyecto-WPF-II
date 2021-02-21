@@ -1,0 +1,154 @@
+﻿<Window x:Class="Proyecto_WPF__II_.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Proyecto_WPF__II_"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="Cines Kesselman"
+        MinHeight="900"
+        MinWidth="1200"
+        WindowState="Maximized">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:CustomCommands.Config"
+                        Executed="CommandBinding_Executed_Config" />
+    </Window.CommandBindings>
+    <Window.Resources>
+        <local:NombreSalaConverter x:Key="nombreSalaConverter"></local:NombreSalaConverter>
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground"
+                    Value="WhiteSmoke" />
+            <Setter Property="FontSize"
+                    Value="30" />
+            <Setter Property="Margin"
+                    Value="10,10,20,10" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="White" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock"
+               x:Key="nombreSalasTextBlock">
+            <Setter Property="FontFamily"
+                    Value="Lucida Sans" />
+            <Setter Property="FontSize"
+                    Value="30" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+            <Setter Property="Foreground"
+                    Value="WhiteSmoke" />
+        </Style>
+        <Style TargetType="TextBlock"
+               x:Key="sesionesTextBlock">
+            <Setter Property="Margin"
+                    Value="3" />
+            <Setter Property="FontSize"
+                    Value="15" />
+            <Setter Property="Foreground"
+                    Value="WhiteSmoke" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin"
+                    Value="5" />
+            <Setter Property="Foreground"
+                    Value="WhiteSmoke" />
+        </Style>
+    </Window.Resources>
+    <DockPanel Background="DarkGray">
+        <Menu DockPanel.Dock="Top"
+              Background="Black"
+              BorderBrush="Crimson"
+              BorderThickness="0,0,0,5">
+            <MenuItem Header="_Configuración Salas"
+                      Command="local:CustomCommands.Config">
+            </MenuItem>
+            <MenuItem Header="_Ayuda">
+            </MenuItem>
+        </Menu>
+        <Border DockPanel.Dock="Right"
+                BorderBrush="Crimson"
+                BorderThickness="5,0,0,0"
+                Width="350"
+                Background="Black">
+            <StackPanel DataContext="{Binding ElementName=salasListBox, Path=SelectedValue}">
+                <TextBlock Margin="5"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           TextAlignment="Center"
+                           Foreground="WhiteSmoke">VENTA DE ENTRADAS</TextBlock>
+                <TextBlock>Seleccionar la sesión</TextBlock>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <CheckBox></CheckBox>
+                    <CheckBox></CheckBox>
+                    <CheckBox></CheckBox>
+                </StackPanel>
+                <StackPanel Margin="25">
+                    <Image Source="ticket.png"
+                           Height="128" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button Margin="5"
+                                Background="Crimson">+</Button>
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="25"
+                                   Margin="10"
+                                   Foreground="WhiteSmoke"
+                                   FontWeight="Bold">1</TextBlock>
+                        <Button Margin="5"
+                                Background="Crimson">-</Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <ListBox ItemsSource="{Binding Path=Salas}"
+                 SelectedItem="0"
+                 x:Name="salasListBox"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Height="400"
+                               Width="240"
+                               Background="Black">
+                        <DockPanel.Effect>
+                            <DropShadowEffect />
+                        </DockPanel.Effect>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Width="240"
+                                   Style="{StaticResource nombreSalasTextBlock}"
+                                   Background="Crimson"
+                                   Text="{Binding Path=IdSala, Converter={StaticResource nombreSalaConverter}}">
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal"
+                                    DockPanel.Dock="Bottom">
+                            <TextBlock />
+                            <TextBlock />
+                        </StackPanel>
+                        <Image Source="{Binding Path=Pelicula.Cartel}"
+                               Stretch="Fill"></Image>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </DockPanel>
+</Window>
