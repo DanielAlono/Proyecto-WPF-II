@@ -10,9 +10,10 @@
         WindowStartupLocation="CenterOwner"
         Title="Capacidad de la sala"
         Height="150"
-        Width="320">
+        Width="350">
     <StackPanel Background="DarkGray">
         <TextBlock FontSize="20"
+                   HorizontalAlignment="Center"
                    Foreground="WhiteSmoke"
                    FontWeight="Bold"
                    Margin="5">Introduce la capacidad de la sala</TextBlock>

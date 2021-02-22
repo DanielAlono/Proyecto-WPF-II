@@ -20,9 +20,15 @@
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Config"
                         Executed="CommandBinding_Executed_Config" />
+        <CommandBinding Command="local:CustomCommands.Add"
+                        Executed="CommandBinding_Executed_Add" />
     </Window.CommandBindings>
     <Window.Resources>
         <local:NombreSalaConverter x:Key="nombreSalaConverter"></local:NombreSalaConverter>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush"
+                    Value="LightYellow" />
+        </Style>
         <Style TargetType="MenuItem">
             <Setter Property="Foreground"
                     Value="WhiteSmoke" />
@@ -72,17 +78,59 @@
     <DockPanel Background="DarkGray">
         <Menu DockPanel.Dock="Top"
               Background="Black"
-              BorderBrush="Crimson"
+              BorderBrush="LightYellow"
               BorderThickness="0,0,0,5">
-            <MenuItem Header="_Configuración Salas"
+            <MenuItem Header="Añadir _Sesión"
                       Command="local:CustomCommands.Config">
             </MenuItem>
             <MenuItem Header="_Ayuda">
             </MenuItem>
         </Menu>
+        <!--Panel izquiero para seleccionar la sala a modificar o añadir-->
+        <Border DockPanel.Dock="Left"
+                BorderThickness="0,0,5,0">
+            <DockPanel>
+                <!--Botón para añadir nueva sala-->
+                <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                        Command="local:CustomCommands.Add"
+                        DockPanel.Dock="Bottom"
+                        Margin="15"
+                        Background="Crimson"
+                        Foreground="White"
+                        FontSize="20">
+                    <Button.Effect>
+                        <DropShadowEffect />
+                    </Button.Effect> +
+                </Button>
+                <!--ListBox para seleccionar la sala a modificar-->
+                <ListBox x:Name="salasListBox"
+                         ItemsSource="{Binding Path=Salas}"
+                         SelectedIndex="{Binding Path=IdSala}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="5"
+                                        Background="Crimson"
+                                        Height="100"
+                                        Width="100">
+                                <StackPanel.Effect>
+                                    <DropShadowEffect />
+                                </StackPanel.Effect>
+                                <TextBlock Style="{StaticResource nombreSalasTextBlock}"
+                                           Text="{Binding Path=IdSala, Converter={StaticResource nombreSalaConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </DockPanel>
+        </Border>
         <!--PANEL DERECHO VENTA DE ENTRADAS-->
         <Border DockPanel.Dock="Right"
-                BorderBrush="Crimson"
                 BorderThickness="5,0,0,0"
                 Width="350"
                 Background="Black">
@@ -128,7 +176,8 @@
         <ListBox ItemsSource="{Binding Path=ListaPeliculas}"
                  SelectedValue="{Binding Path=PeliculaSeleccionada}"
                  x:Name="peliculasListBox"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalAlignment="Center">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Height="400"

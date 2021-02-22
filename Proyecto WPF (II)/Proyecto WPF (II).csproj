@@ -110,8 +110,8 @@
     <Compile Include="CapacidadSala.xaml.cs">
       <DependentUpon>CapacidadSala.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConfiguracionSalas.xaml.cs">
-      <DependentUpon>ConfiguracionSalas.xaml</DependentUpon>
+    <Compile Include="AñadirSesion.xaml.cs">
+      <DependentUpon>AñadirSesion.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomCommands.cs" />
     <Compile Include="MainWindowVM.cs" />
@@ -125,7 +125,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfiguracionSalas.xaml">
+    <Page Include="AñadirSesion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
