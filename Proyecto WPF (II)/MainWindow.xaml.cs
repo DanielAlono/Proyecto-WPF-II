@@ -24,17 +24,21 @@ namespace Proyecto_WPF__II_
             InitializeComponent();
             _vistaModelo = new MainWindowVM();
             this.DataContext = _vistaModelo;
+            //Obtendremos las sesiones por la película seleccionada
+            if(peliculasListBox.SelectedValue != null)
+            {
+                _vistaModelo.SesionesPorPelicula = _vistaModelo.ObtenerSesionesPorPelicula(_vistaModelo.PeliculaSeleccionada.Id);
+            }
         }
 
         private void CommandBinding_Executed_Config(object sender, ExecutedRoutedEventArgs e)
         {
-            ConfiguracionSalas config = new ConfiguracionSalas();
+            ConfiguracionSalas config = new ConfiguracionSalas(_vistaModelo);
             config.Owner = this;
-            config.DataContext = _vistaModelo;
 
             if(config.ShowDialog() == true)
             {
-                _vistaModelo.AñadirSala(config.Capacidad);
+                
             }
         }
     }

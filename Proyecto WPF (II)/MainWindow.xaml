@@ -80,24 +80,32 @@
             <MenuItem Header="_Ayuda">
             </MenuItem>
         </Menu>
+        <!--PANEL DERECHO VENTA DE ENTRADAS-->
         <Border DockPanel.Dock="Right"
                 BorderBrush="Crimson"
                 BorderThickness="5,0,0,0"
                 Width="350"
                 Background="Black">
-            <StackPanel DataContext="{Binding ElementName=salasListBox, Path=SelectedValue}">
+            <StackPanel DataContext="{Binding Path=SesionesPorPelicula}">
                 <TextBlock Margin="5"
                            FontSize="30"
                            FontWeight="Bold"
                            TextAlignment="Center"
                            Foreground="WhiteSmoke">VENTA DE ENTRADAS</TextBlock>
+                <!--SESIONES-->
                 <TextBlock>Seleccionar la sesión</TextBlock>
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                    <CheckBox></CheckBox>
-                    <CheckBox></CheckBox>
-                    <CheckBox></CheckBox>
-                </StackPanel>
+                <ListBox>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource sesionesTextBlock}">Hora:</TextBlock>
+                                <CheckBox Content="{Binding Path=Hora}"
+                                          Foreground="WhiteSmoke"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <!--NÚMERO DE TICKETS-->
                 <StackPanel Margin="25">
                     <Image Source="ticket.png"
                            Height="128" />
@@ -116,9 +124,10 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <ListBox ItemsSource="{Binding Path=Salas}"
-                 SelectedItem="0"
-                 x:Name="salasListBox"
+        <!--VISUALIZACIÓN DE LAS PELÍCULAS-->
+        <ListBox ItemsSource="{Binding Path=ListaPeliculas}"
+                 SelectedValue="{Binding Path=PeliculaSeleccionada}"
+                 x:Name="peliculasListBox"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -128,18 +137,7 @@
                         <DockPanel.Effect>
                             <DropShadowEffect />
                         </DockPanel.Effect>
-                        <TextBlock DockPanel.Dock="Top"
-                                   Width="240"
-                                   Style="{StaticResource nombreSalasTextBlock}"
-                                   Background="Crimson"
-                                   Text="{Binding Path=IdSala, Converter={StaticResource nombreSalaConverter}}">
-                        </TextBlock>
-                        <StackPanel Orientation="Horizontal"
-                                    DockPanel.Dock="Bottom">
-                            <TextBlock />
-                            <TextBlock />
-                        </StackPanel>
-                        <Image Source="{Binding Path=Pelicula.Cartel}"
+                        <Image Source="{Binding Path=Cartel}"
                                Stretch="Fill"></Image>
                     </DockPanel>
                 </DataTemplate>

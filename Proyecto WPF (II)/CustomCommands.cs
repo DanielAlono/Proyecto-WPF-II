@@ -12,6 +12,9 @@ namespace Proyecto_WPF__II_
         public static readonly RoutedUICommand Add = new RoutedUICommand
             ("Add", "Add", typeof(CustomCommands),
              null);
+        public static readonly RoutedUICommand Save = new RoutedUICommand
+            ("Save", "Save", typeof(CustomCommands),
+             null);
 
         public static readonly RoutedUICommand Edit = new RoutedUICommand
             ("Edit", "Edit", typeof(CustomCommands),

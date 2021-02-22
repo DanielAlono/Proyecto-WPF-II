@@ -13,9 +13,16 @@ namespace Proyecto_WPF__II_
         public Sala NuevaSala { get; set; }
         public Sesiones NuevaSesion { get; set; }
         public Ventas NuevaVenta { get; set; }
+        public Sala SalaSeleccionada { get; set; }
+        public Pelicula PeliculaSeleccionada { get; set; }
         public ObservableCollection<Pelicula> ListaPeliculas { get; set; }
         public ObservableCollection<Sala> Salas { get; set; }
         public ObservableCollection<Sesiones> Sesiones { get; set; }
+        public ObservableCollection<Sesiones> SesionesPorPelicula { get; set; }
+        public List<string> Horarios { get => _horarios; set => _horarios = value; }
+
+        private List<string> _horarios = new List<string>() { "16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30",
+                                                            "20:00","20:30","21:00","21:30","22:00"};
 
         private ServicioCartelera _servicio;
         private BaseDatosService _datosService;
@@ -43,7 +50,20 @@ namespace Proyecto_WPF__II_
             Salas = _datosService.ObtenerSalas();
             Sesiones = _datosService.ObtenerSesiones();
         }
+
         //UTILS
+        public ObservableCollection<Sesiones> ObtenerSesionesPorPelicula(int idPelicula)
+        {
+            ObservableCollection<Sesiones> sesionesPorPelicula = new ObservableCollection<Sesiones>();
+            for (int i = 0; i < Sesiones.Count; i++)
+            {
+                if (Sesiones[i].Pelicula == idPelicula)
+                {
+                    sesionesPorPelicula.Add(Sesiones[i]);
+                }
+            }
+            return sesionesPorPelicula;
+        }
         public Sala ObtenerSala(Sesiones sesion)
         {
             Sala salaEncontrada = null;
@@ -96,7 +116,15 @@ namespace Proyecto_WPF__II_
         //SESIONES
         public void AñadirSesion(int pelicula, int sala, string hora)
         {
-            int idSesion = _datosService.ObtenerSesiones().Count + 1;
+            int idSesion;
+            if (_datosService.ObtenerSesiones().Count == 0)
+            {
+                idSesion = 1;
+            }
+            else
+            {
+                idSesion = _datosService.ObtenerSesiones().Count() + 1;
+            }
             NuevaSesion = new Sesiones(idSesion, pelicula, sala, hora);
             _datosService.InsertarSesion(NuevaSesion);
             Sesiones = _datosService.ObtenerSesiones();

@@ -20,6 +20,9 @@
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Add"
                         Executed="CommandBinding_Executed_Add" />
+        <CommandBinding Command="local:CustomCommands.Save"
+                        Executed="CommandBinding_Executed_Save"
+                        CanExecute="CommandBinding_CanExecute_Save" />
     </Window.CommandBindings>
     <Window.Resources>
         <local:NombreSalaConverter x:Key="nombreSalaConverter"></local:NombreSalaConverter>
@@ -75,7 +78,8 @@
                 </Button>
                 <!--ListBox para seleccionar la sala a modificar-->
                 <ListBox x:Name="salasListBox"
-                         ItemsSource="{Binding Path=Salas}">
+                         ItemsSource="{Binding Path=Salas}"
+                         SelectedIndex="{Binding Path=IdSala}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal"
@@ -99,26 +103,26 @@
                 </ListBox>
             </DockPanel>
         </Border>
-        <!--Panel derecho con las opciones para modificar las salas-->
+        <!--Panel derecho con las opciones para modificar las salas y añadir sesiones-->
         <StackPanel DockPanel.Dock="Right"
                     Margin="25">
             <TextBlock>Seleccionar película</TextBlock>
             <ComboBox ItemsSource="{Binding Path=ListaPeliculas}"
+                      x:Name="peliculaComboBox"
                       Text="Seleccionar película"
-                      DisplayMemberPath="Titulo">
+                      DisplayMemberPath="Titulo"
+                      SelectedIndex="{Binding Path=IdPelicula}"
+                      SelectedValue="{Binding Path=Pelicula}">
             </ComboBox>
-            <StackPanel DataContext="{Binding Path=Sesiones}">
-                <TextBlock>Sesión 1</TextBlock>
-                <TextBlock></TextBlock>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock>Sesión 2</TextBlock>
-                <TextBlock></TextBlock>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock>Sesión 2</TextBlock>
-                <TextBlock></TextBlock>
-            </StackPanel>
+            <TextBlock Margin="0,30,0,0">Seleccionar hora para la sesión</TextBlock>
+            <ComboBox ItemsSource="{Binding Path=Horarios}"
+                      x:Name="horaComboBox"
+                      Text="Seleccionar hora"
+                      SelectedValue="{Binding Path=Hora}"/>
+            <Button Background="Crimson"
+                    Command="local:CustomCommands.Save"
+                    Width="130"
+                    Margin="0,30,0,0">Guardar Sesión</Button>
         </StackPanel>
         <!--Panel central para visualizar cómo queda el cartel-->
         <DockPanel Height="700"
@@ -132,24 +136,8 @@
                        Width="480"
                        Style="{StaticResource nombreSalasTextBlock}"
                        Background="Crimson"
-                       Text="{Binding Path=Id, Converter={StaticResource nombreSalaConverter}}">
+                       Text="{Binding Path=IdSala, Converter={StaticResource nombreSalaConverter}}">
             </TextBlock>
-            <DockPanel DockPanel.Dock="Bottom"
-                       Margin="10">
-                <StackPanel DockPanel.Dock="Left"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Path=SesionUno}"
-                               Style="{StaticResource sesionesTextBlock}" />
-                    <TextBlock Style="{StaticResource sesionesTextBlock}"> /</TextBlock>
-                    <TextBlock Text="{Binding Path=SesionDos}"
-                               Style="{StaticResource sesionesTextBlock}" />
-                    <TextBlock Style="{StaticResource sesionesTextBlock}"> /</TextBlock>
-                    <TextBlock Text="{Binding Path=SesionTres}"
-                               Style="{StaticResource sesionesTextBlock}" />
-                </StackPanel>
-                <TextBlock />
-            </DockPanel>
             <Image Source="{Binding Path=Pelicula.Cartel}"
                    Stretch="Fill"></Image>
         </DockPanel>
