@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Proyecto_WPF__II_
 {
-    class NombreSalaConverter : IValueConverter
+    public class NombreSalaConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Proyecto_WPF__II_
 {
-    class Ventas
+    public class Ventas : INotifyPropertyChanged
     {
         public int IdVenta { get; set; }
         public int Sesion { get; set; }
@@ -20,5 +21,7 @@ namespace Proyecto_WPF__II_
             Cantidad = cantidad;
             Pago = pago;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

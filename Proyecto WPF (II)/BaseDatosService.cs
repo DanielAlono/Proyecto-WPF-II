@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_WPF__II_
 {
-    class BaseDatosService
+    public class BaseDatosService
     {
         private readonly SqliteConnection _conexion;
         private SqliteCommand _comando;
@@ -169,7 +169,7 @@ namespace Proyecto_WPF__II_
             _comando.Parameters.Add("@idSala", SqliteType.Integer);
             _comando.Parameters.Add("@numero", SqliteType.Text);
             _comando.Parameters.Add("@capacidad", SqliteType.Integer);
-            _comando.Parameters.Add("@disponible", SqliteType.Text);
+            _comando.Parameters.Add("@disponible", SqliteType.Real);
             _comando.Parameters["@idSala"].Value = sala.IdSala;
             _comando.Parameters["@numero"].Value = sala.Numero;
             _comando.Parameters["@capacidad"].Value = sala.Capacidad;

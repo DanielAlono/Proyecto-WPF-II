@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_WPF__II_
 {
-    class Pelicula : INotifyPropertyChanged
+    public class Pelicula : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string Titulo { get; set; }

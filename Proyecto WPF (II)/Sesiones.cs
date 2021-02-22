@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Proyecto_WPF__II_
 {
-    class Sesiones
+    public class Sesiones : INotifyPropertyChanged
     {
         public int IdSesion { get; set; }
         public int Pelicula { get; set; }
@@ -21,5 +22,7 @@ namespace Proyecto_WPF__II_
             Sala = sala;
             Hora = hora;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

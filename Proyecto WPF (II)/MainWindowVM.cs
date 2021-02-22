@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_WPF__II_
 {
-    class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : INotifyPropertyChanged
     {
         public Sala NuevaSala { get; set; }
         public Sesiones NuevaSesion { get; set; }
