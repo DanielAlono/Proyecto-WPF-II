@@ -145,11 +145,14 @@ namespace Proyecto_WPF__II_
 
             if (lector.HasRows)
             {
-                int idSala = lector.GetInt32(0);
-                string numero = lector.GetString(1);
-                int capacidad = lector.GetInt32(2);
-                bool disponible = lector.GetBoolean(3);
-                salas.Add(new Sala(idSala, numero, capacidad, disponible));
+                while (lector.Read())
+                {
+                    int idSala = lector.GetInt32(0);
+                    string numero = lector.GetString(1);
+                    int capacidad = lector.GetInt32(2);
+                    bool disponible = lector.GetBoolean(3);
+                    salas.Add(new Sala(idSala, numero, capacidad, disponible));
+                }
             }
             lector.Close();
             _conexion.Close();
@@ -162,12 +165,12 @@ namespace Proyecto_WPF__II_
             _conexion.Open();
             _comando = _conexion.CreateCommand();
 
-            _comando.CommandText = "INSERT INTO salas VALUES (@idSalas,@numero,@capacidad,@disponible)";
-            _comando.Parameters.Add("@idSalas", SqliteType.Integer);
+            _comando.CommandText = "INSERT INTO salas VALUES (@idSala,@numero,@capacidad,@disponible)";
+            _comando.Parameters.Add("@idSala", SqliteType.Integer);
             _comando.Parameters.Add("@numero", SqliteType.Text);
             _comando.Parameters.Add("@capacidad", SqliteType.Integer);
             _comando.Parameters.Add("@disponible", SqliteType.Text);
-            _comando.Parameters["@idSalas"].Value = sala.IdSala;
+            _comando.Parameters["@idSala"].Value = sala.IdSala;
             _comando.Parameters["@numero"].Value = sala.Numero;
             _comando.Parameters["@capacidad"].Value = sala.Capacidad;
             _comando.Parameters["@disponible"].Value = sala.Disponible;

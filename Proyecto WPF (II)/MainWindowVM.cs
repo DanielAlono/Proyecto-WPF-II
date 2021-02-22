@@ -61,7 +61,7 @@ namespace Proyecto_WPF__II_
             Pelicula peliculaEncontrada = null;
             foreach (Pelicula pelicula in ListaPeliculas)
             {
-                if (sesion.Pelicula == sesion.Pelicula)
+                if (sesion.Pelicula == pelicula.Id)
                 {
                     peliculaEncontrada = pelicula;
                 }
@@ -72,12 +72,21 @@ namespace Proyecto_WPF__II_
         //SALAS
         public void AñadirSala(int capacidad)
         {
-            int idSala = _datosService.ObtenerSalas().Count() + 1;
+            int idSala;
+            if (_datosService.ObtenerSalas().Count == 0)
+            {
+                idSala = 1;
+            }
+            else
+            {
+                idSala = _datosService.ObtenerSalas().Count() + 1;
+            }
             string numero = idSala.ToString();
             bool disponible = true;
 
             NuevaSala = new Sala(idSala, numero, capacidad, disponible);
             _datosService.InsertarSala(NuevaSala);
+            Salas = _datosService.ObtenerSalas();
         }
         public void ModificarSala(Sala sala)
         {
@@ -90,6 +99,7 @@ namespace Proyecto_WPF__II_
             int idSesion = _datosService.ObtenerSesiones().Count + 1;
             NuevaSesion = new Sesiones(idSesion, pelicula, sala, hora);
             _datosService.InsertarSesion(NuevaSesion);
+            Sesiones = _datosService.ObtenerSesiones();
         }
         public void ModificarSesion(Sesiones sesion)
         {

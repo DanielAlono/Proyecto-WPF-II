@@ -9,7 +9,7 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
         Title="Capacidad de la sala"
-        Height="140"
+        Height="150"
         Width="320">
     <StackPanel Background="DarkGray">
         <TextBlock FontSize="20"

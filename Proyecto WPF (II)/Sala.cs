@@ -14,8 +14,6 @@ namespace Proyecto_WPF__II_
         public int Capacidad { get; set; }
         public bool Disponible { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Sala() { }
 
         public Sala(int idSala, string numero, int capacidad, bool disponible)
@@ -25,5 +23,7 @@ namespace Proyecto_WPF__II_
             Capacidad = capacidad;
             Disponible = disponible;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
