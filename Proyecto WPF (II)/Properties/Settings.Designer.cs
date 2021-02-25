@@ -35,10 +35,10 @@ namespace Proyecto_WPF__II_.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2021-02-20")]
-        public global::System.DateTime diaActual {
+        [global::System.Configuration.DefaultSettingValueAttribute("2021/02/20")]
+        public string diaActual {
             get {
-                return ((global::System.DateTime)(this["diaActual"]));
+                return ((string)(this["diaActual"]));
             }
             set {
                 this["diaActual"] = value;

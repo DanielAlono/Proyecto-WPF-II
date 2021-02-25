@@ -17,7 +17,7 @@
                         CanExecute="CommandBinding_CanExecute_Save" />
         <CommandBinding Command="local:CustomCommands.Delete"
                         Executed="CommandBinding_Executed_Delete"
-                        CanExecute="CommandBinding_CanExecute_Delete"/>
+                        CanExecute="CommandBinding_CanExecute_Delete" />
     </Window.CommandBindings>
     <Window.Resources>
         <local:NombreSalaConverter x:Key="nombreSalaConverter" />
@@ -46,29 +46,26 @@
                           SelectedValue="{Binding Path=PeliculaSeleccionada}" />
             </StackPanel>
         </Border>
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button Background="Crimson"
+                    Margin="5">Guardar</Button>
+            <Button Command="local:CustomCommands.Delete">Eliminar</Button>
+        </StackPanel>
         <ListBox ItemsSource="{Binding SelectedValue, Converter={StaticResource sesionesConverter}, ElementName=listaPeliculasComboBox}"
                  HorizontalAlignment="Center"
                  SelectedValue="{Binding Path=SesionSeleccionada}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <GroupBox Header="{Binding Sala, Converter={StaticResource nombreSalaConverter}}">
-                        <StackPanel>
+                        <StackPanel Width="150">
                             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
-                                      ItemsSource="{Binding Path=Horarios}"
-                                      x:Name="horaComboBox"
+                                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Horarios}"
                                       SelectedValue="{Binding Path=Hora}"></ComboBox>
                             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
-                                      ItemsSource="{Binding Path=Salas}"
-                                      DisplayMemberPath="IdSala"
-                                      x:Name="salasComboBox"
-                                      SelectedValue="{Binding Path=NuevaSala}"></ComboBox>
-                            <StackPanel DockPanel.Dock="Bottom"
-                                        HorizontalAlignment="Right"
-                                        Orientation="Horizontal">
-                                <Button Background="Crimson"
-                                        Margin="5">Guardar</Button>
-                                <Button Command="local:CustomCommands.Delete">Eliminar</Button>
-                            </StackPanel>
+                                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Salas}"
+                                      SelectedItem="{Binding Path=Sala.IdSala}"></ComboBox>
                         </StackPanel>
                     </GroupBox>
                 </DataTemplate>

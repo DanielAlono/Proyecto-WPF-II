@@ -34,7 +34,8 @@ namespace Proyecto_WPF__II_
 
         private void CommandBinding_Executed_Save(object sender, ExecutedRoutedEventArgs e)
         {
-
+            _vistaModelo.ModificarSesion(new Sesiones(_vistaModelo.SesionSeleccionada.IdSesion, _vistaModelo.PeliculaSeleccionada.Id,
+                _vistaModelo.NuevaSala.IdSala, _vistaModelo.Hora));
         }
 
         private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
@@ -50,7 +51,7 @@ namespace Proyecto_WPF__II_
 
         private void CommandBinding_CanExecute_Delete(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (_vistaModelo.PeliculaSeleccionada != null && _vistaModelo.SesionSeleccionada != null)
+            if (_vistaModelo != null && _vistaModelo.PeliculaSeleccionada != null && _vistaModelo.SesionSeleccionada != null)
                 e.CanExecute = true;
             else
                 e.CanExecute = false;

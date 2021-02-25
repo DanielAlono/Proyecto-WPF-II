@@ -345,6 +345,39 @@
             <Setter Property="Margin"
                     Value="5" />
         </Style>
+        <Style TargetType="TextBlock"
+               x:Key="calificacionTextBlock">
+            <Setter Property="FontSize"
+                    Value="15" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="FontFamily"
+                    Value="Lucida Sans" />
+            <Setter Property="Text"
+                    Value="{Binding Path=Calificacion}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Calificacion}"
+                             Value="APTA TP">
+                    <Setter Property="Foreground"
+                            Value="Green" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Calificacion}"
+                             Value="NRM 7">
+                    <Setter Property="Foreground"
+                            Value="Yellow" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Calificacion}"
+                             Value="NRM 12">
+                    <Setter Property="Foreground"
+                            Value="Orange" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Calificacion}"
+                             Value="NRM 16">
+                    <Setter Property="Foreground"
+                            Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Config"
@@ -359,6 +392,8 @@
                         CanExecute="CommandBinding_CanExecute_Edit" />
         <CommandBinding Command="local:CustomCommands.EditSesion"
                         Executed="CommandBinding_Executed_EditSesion" />
+        <CommandBinding Command="local:CustomCommands.Help"
+                        Executed="CommandBinding_Executed_Help" />
     </Window.CommandBindings>
     <DockPanel Background="DarkGray">
         <Menu DockPanel.Dock="Top"
@@ -369,7 +404,9 @@
                       Command="local:CustomCommands.Config" />
             <MenuItem Header="_Gestionar Sesiones"
                       Command="local:CustomCommands.EditSesion" />
-            <MenuItem Header="_Ayuda" />
+            <MenuItem Header="_Ayuda"
+                      Command="local:CustomCommands.Help">
+            </MenuItem>
         </Menu>
         <!--Panel izquiero para seleccionar la sala a modificar o añadir-->
         <Border DockPanel.Dock="Left"
@@ -505,12 +542,34 @@
                  HorizontalAlignment="Center">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel Height="400"
-                               Width="240"
+                    <DockPanel Height="450"
+                               Width="300"
+                               x:Name="peliculasDockPanel"
                                Background="Black">
                         <DockPanel.Effect>
                             <DropShadowEffect />
                         </DockPanel.Effect>
+                        <TextBlock DockPanel.Dock="Top" 
+                                   Text="{Binding Titulo}"
+                                   FontFamily="Times New Roman"
+                                   FontWeight="Bold"
+                                   FontSize="25"
+                                   HorizontalAlignment="Center"
+                                   TextAlignment="Center"
+                                   Foreground="White"
+                                   TextWrapping="WrapWithOverflow"/>
+                        <DockPanel DockPanel.Dock="Bottom"
+                                   Margin="5">
+                            <TextBlock DockPanel.Dock="Left"
+                                       Foreground="WhiteSmoke"
+                                       Text="{Binding Genero}"
+                                       FontFamily="Lucida Sans"
+                                       FontSize="15"
+                                       FontWeight="Bold"/>
+                            <TextBlock DockPanel.Dock="Right"
+                                       Style="{StaticResource calificacionTextBlock}"/>
+                            <TextBlock />
+                        </DockPanel>
                         <Image Source="{Binding Cartel}"
                                Stretch="Fill" />
                     </DockPanel>

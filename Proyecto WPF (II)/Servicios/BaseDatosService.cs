@@ -107,13 +107,39 @@ namespace Proyecto_WPF__II_
             _conexion.Close();
             CrearTablas();
         }
-
         public void InsertarPelicula(Pelicula pelicula)
         {
             _conexion.Open();
             _comando = _conexion.CreateCommand();
 
             _comando.CommandText = "INSERT INTO peliculas VALUES (@idPelicula,@titulo,@cartel,@año,@genero,@calificacion)";
+            _comando.Parameters.Add("@idPelicula", SqliteType.Integer);
+            _comando.Parameters.Add("@titulo", SqliteType.Text);
+            _comando.Parameters.Add("@cartel", SqliteType.Text);
+            _comando.Parameters.Add("@año", SqliteType.Integer);
+            _comando.Parameters.Add("@genero", SqliteType.Text);
+            _comando.Parameters.Add("@calificacion", SqliteType.Text);
+            _comando.Parameters["@idPelicula"].Value = pelicula.Id;
+            _comando.Parameters["@titulo"].Value = pelicula.Titulo;
+            _comando.Parameters["@cartel"].Value = pelicula.Cartel;
+            _comando.Parameters["@año"].Value = pelicula.Año;
+            _comando.Parameters["@genero"].Value = pelicula.Genero;
+            _comando.Parameters["@calificacion"].Value = pelicula.Calificacion;
+            _comando.ExecuteNonQuery();
+
+            _conexion.Close();
+        }
+        public void ActualizarPelicula(Pelicula pelicula)
+        {
+            _conexion.Open();
+            _comando = _conexion.CreateCommand();
+
+            _comando.CommandText = "UPDATE peliculas SET titulo=@titulo, " +
+                                                "cartel=@cartel, " +
+                                                "año=@año, " +
+                                                "genero=@genero, " +
+                                                "calificacion=@calificacion " +
+                                                "WHERE idPelicula=@idPelicula";
             _comando.Parameters.Add("@idPelicula", SqliteType.Integer);
             _comando.Parameters.Add("@titulo", SqliteType.Text);
             _comando.Parameters.Add("@cartel", SqliteType.Text);
@@ -251,9 +277,13 @@ namespace Proyecto_WPF__II_
             _comando = _conexion.CreateCommand();
 
             _comando.CommandText = "UPDATE sesiones SET pelicula=@pelicula, " +
-                                                    "SET sala=@sala," +
-                                                    "SET hora=@hora " +
+                                                    "sala=@sala," +
+                                                    "hora=@hora " +
                                                     "WHERE idSesion=@idSesion";
+            _comando.Parameters.Add("@idSesion", SqliteType.Integer);
+            _comando.Parameters.Add("@pelicula", SqliteType.Integer);
+            _comando.Parameters.Add("@sala", SqliteType.Integer);
+            _comando.Parameters.Add("@hora", SqliteType.Text);
             _comando.Parameters["@idSesion"].Value = sesion.IdSesion;
             _comando.Parameters["@pelicula"].Value = sesion.Pelicula;
             _comando.Parameters["@sala"].Value = sesion.Sala;

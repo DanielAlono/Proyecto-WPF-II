@@ -51,14 +51,27 @@ namespace Proyecto_WPF__II_
                 }
             }
             if (ComprobarSiHaPasadoElDia())
-            {
-                //Borramos todas las películas que tengamos en la BD y asignamos la nueva lista
-                //_datosService.BorrarPeliculas();
+            {   //Borramos todas las ventas
                 _datosService.BorrarVentas();
-                /*foreach (Pelicula pelicula in _servicio.GetSamples())
+
+                //Recogemos las peliculas del API y las peliculas del nuestra BD
+                ObservableCollection<Pelicula> peliculasAPI = _servicio.GetSamples();
+                ObservableCollection<Pelicula> peliculasBD = _datosService.ObtenerPeliculas();
+
+                //Recorremos nuestra BD de peliculas
+                for (int i = 0; i < peliculasAPI.Count; i++)
                 {
-                    _datosService.InsertarPelicula(pelicula);
-                }*/
+                    //Modificamos las peliculas de nuestra BD por la del API por su hubiera habido un cambio
+                    if (peliculasAPI[i].Id == peliculasBD[i].Id)
+                    {
+                        _datosService.ActualizarPelicula(peliculasAPI[i]);
+                    }
+                    //Si hay + ID's insertamos las nuevas películas
+                    else
+                    {
+                        _datosService.InsertarPelicula(peliculasAPI[i]);
+                    }
+                }
             }
 
             //Recogemos los datos
@@ -185,11 +198,12 @@ namespace Proyecto_WPF__II_
         }
         private bool ComprobarSiHaPasadoElDia()
         {
-            DateTime comprobarDia = Properties.Settings.Default.diaActual;
-            DateTime thisDay = DateTime.Today;
-            if (comprobarDia.Day != thisDay.Day)
+            string comprobarDia = Properties.Settings.Default.diaActual;
+            string thisDay = DateTime.Today.ToShortDateString();
+            if (comprobarDia!= thisDay)
             {
                 Properties.Settings.Default.diaActual = thisDay;
+                Properties.Settings.Default.Save();
                 return true;
             }
             else
