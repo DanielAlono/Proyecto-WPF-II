@@ -17,23 +17,37 @@ namespace Proyecto_WPF__II_
 {
     public partial class ConfiguracionSalas : Window
     {
-        public int IdPelicula { get; set; }
-        public int IdSala { get; set; }
-        public string Hora { get; set; }
-        public ObservableCollection<Pelicula> ListaPeliculas { get; set; }
-        public ObservableCollection<Sala> Salas { get; set; }
-        public List<string> Horarios { get; set; }
+        private MainWindowVM _vistaModelo;
         public ConfiguracionSalas()
         {
             InitializeComponent();
-            peliculasComboBox.ItemsSource = ListaPeliculas;
-            salasComboBox.ItemsSource = Salas;
-            horaComboBox.ItemsSource = Horarios;
-            DataContext = this;
+            _vistaModelo = new MainWindowVM();
+            this.DataContext = _vistaModelo;
         }
-        private void aceptarButton_Click(object sender, RoutedEventArgs e)
+        //Guardamos la nueva sesión
+        private void CommandBinding_Executed_Save(object sender, ExecutedRoutedEventArgs e)
         {
-            DialogResult = true;
+            _vistaModelo.AñadirSesion(_vistaModelo.PeliculaSeleccionada.Id, _vistaModelo.NuevaSala.IdSala, _vistaModelo.Hora);
+            this.Close();
+        }
+
+        private void CommandBinding_CanExecute_Save(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+            if (avisoTextBlock != null && _vistaModelo != null && _vistaModelo.ObtenerNumeroSesionesEnSala(_vistaModelo.NuevaSala) < 3)
+            {
+                e.CanExecute = true;
+                avisoTextBlock.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void CommandBinding_Executed_Exit(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

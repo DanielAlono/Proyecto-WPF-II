@@ -15,19 +15,18 @@ using System.Windows.Shapes;
 namespace Proyecto_WPF__II_
 {
     /// <summary>
-    /// Lógica de interacción para CapacidadSala.xaml
+    /// Lógica de interacción para VistaVentaEntradas.xaml
     /// </summary>
-    public partial class CapacidadSala : Window
+    public partial class VistaVentaEntradas : Window
     {
-        public int Capacidad { get; set; }
-        public CapacidadSala()
+        public string Titulo { get; set; }
+        public int Sala { get; set; }
+        public string Fecha { get; set; }
+        public string Hora { get; set; }
+        public VistaVentaEntradas()
         {
             InitializeComponent();
             DataContext = this;
-        }
-        private void aceptarButton_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
         }
     }
 }

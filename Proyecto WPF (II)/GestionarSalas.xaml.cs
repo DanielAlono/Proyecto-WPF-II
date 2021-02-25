@@ -15,12 +15,13 @@ using System.Windows.Shapes;
 namespace Proyecto_WPF__II_
 {
     /// <summary>
-    /// Lógica de interacción para CapacidadSala.xaml
+    /// Lógica de interacción para GestionarSalas.xaml
     /// </summary>
-    public partial class CapacidadSala : Window
+    public partial class GestionarSalas : Window
     {
         public int Capacidad { get; set; }
-        public CapacidadSala()
+        public bool Disponible { get; set; }
+        public GestionarSalas()
         {
             InitializeComponent();
             DataContext = this;

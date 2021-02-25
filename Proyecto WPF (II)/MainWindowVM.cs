@@ -10,14 +10,20 @@ namespace Proyecto_WPF__II_
 {
     public class MainWindowVM : INotifyPropertyChanged
     {
+        public string Hora { get; set; }
+        public int Entradas { get; set; }
+        public int Ocupadas { get; set; }
+        public int Disponibles { get; set; }
         public Sala NuevaSala { get; set; }
         public Sesiones NuevaSesion { get; set; }
         public Ventas NuevaVenta { get; set; }
-        public Sala SalaSeleccionada { get; set; }
         public Pelicula PeliculaSeleccionada { get; set; }
+        public Sala SalaSeleccionada { get; set; }
+        public Sesiones SesionSeleccionada { get; set; }
         public ObservableCollection<Pelicula> ListaPeliculas { get; set; }
         public ObservableCollection<Sala> Salas { get; set; }
         public ObservableCollection<Sesiones> Sesiones { get; set; }
+        public ObservableCollection<Ventas> Ventas { get; set; }
         public ObservableCollection<Sesiones> SesionesPorPelicula { get; set; }
         public List<string> Horarios { get => _horarios; set => _horarios = value; }
 
@@ -34,21 +40,32 @@ namespace Proyecto_WPF__II_
             //Inicializamos
             _servicio = new ServicioCartelera();
             _datosService = new BaseDatosService();
+            Entradas = 0;
 
-            if (ComprobarSiHaPasadoElDia())
+            //Insertamos las películas de manera cutre
+            if (_datosService.ObtenerPeliculas().Count == 0)
             {
-                //Borramos todas las películas que tengamos en la BD y asignamos la nueva lista
-                _datosService.BorrarPeliculas();
                 foreach (Pelicula pelicula in _servicio.GetSamples())
                 {
                     _datosService.InsertarPelicula(pelicula);
                 }
+            }
+            if (ComprobarSiHaPasadoElDia())
+            {
+                //Borramos todas las películas que tengamos en la BD y asignamos la nueva lista
+                //_datosService.BorrarPeliculas();
+                _datosService.BorrarVentas();
+                /*foreach (Pelicula pelicula in _servicio.GetSamples())
+                {
+                    _datosService.InsertarPelicula(pelicula);
+                }*/
             }
 
             //Recogemos los datos
             ListaPeliculas = _datosService.ObtenerPeliculas();
             Salas = _datosService.ObtenerSalas();
             Sesiones = _datosService.ObtenerSesiones();
+            Ventas = _datosService.ObtenerVentas();
         }
 
         //UTILS
@@ -64,12 +81,39 @@ namespace Proyecto_WPF__II_
             }
             return sesionesPorPelicula;
         }
-        public Sala ObtenerSala(Sesiones sesion)
+        public ObservableCollection<Ventas> ObtenerVentasPorSesion(Sesiones sesion)
+        {
+            ObservableCollection<Ventas> ventasPorSesion = new ObservableCollection<Ventas>();
+            foreach (Ventas venta in Ventas)
+            {
+                if (sesion.IdSesion == venta.Sesion)
+                {
+                    ventasPorSesion.Add(venta);
+                }
+            }
+            return ventasPorSesion;
+        }
+        public int ObtenerNumeroSesionesEnSala(Sala sala)
+        {
+            int numeroSesiones = 0;
+            if (sala != null)
+            {
+                foreach (Sesiones sesion in Sesiones)
+                {
+                    if (sesion.Sala == sala.IdSala)
+                    {
+                        numeroSesiones += 1;
+                    }
+                }
+            }
+            return numeroSesiones;
+        }
+        public Sala ObtenerSala(int idSala)
         {
             Sala salaEncontrada = null;
             foreach (Sala sala in Salas)
             {
-                if (sesion.Sala == sala.IdSala)
+                if (idSala == sala.IdSala)
                 {
                     salaEncontrada = sala;
                 }
@@ -93,14 +137,9 @@ namespace Proyecto_WPF__II_
         public void AñadirSala(int capacidad)
         {
             int idSala;
-            if (_datosService.ObtenerSalas().Count == 0)
-            {
-                idSala = 1;
-            }
-            else
-            {
-                idSala = _datosService.ObtenerSalas().Count() + 1;
-            }
+            if (_datosService.ObtenerSalas().Count != 0)
+                idSala = _datosService.ObtenerSalas().Last().IdSala + 1;
+            else idSala = 1;
             string numero = idSala.ToString();
             bool disponible = true;
 
@@ -117,14 +156,9 @@ namespace Proyecto_WPF__II_
         public void AñadirSesion(int pelicula, int sala, string hora)
         {
             int idSesion;
-            if (_datosService.ObtenerSesiones().Count == 0)
-            {
-                idSesion = 1;
-            }
-            else
-            {
-                idSesion = _datosService.ObtenerSesiones().Count() + 1;
-            }
+            if (_datosService.ObtenerSesiones().Count != 0)
+                idSesion = _datosService.ObtenerSesiones().Last().IdSesion + 1;
+            else idSesion = 1;
             NuevaSesion = new Sesiones(idSesion, pelicula, sala, hora);
             _datosService.InsertarSesion(NuevaSesion);
             Sesiones = _datosService.ObtenerSesiones();
@@ -133,11 +167,18 @@ namespace Proyecto_WPF__II_
         {
             _datosService.ActualizarSesion(sesion);
         }
+        public void EliminarSesion(Sesiones sesion)
+        {
+            _datosService.EliminarSesion(sesion);
+        }
 
         //VENTAS
         public void AñadirVenta(int sesion, int cantidad)
         {
-            int idVenta = _datosService.ObtenerVentas().Count + 1;
+            int idVenta;
+            if (_datosService.ObtenerVentas().Count != 0)
+                idVenta = _datosService.ObtenerVentas().Last().IdVenta + 1;
+            else idVenta = 1;
             string pago = "TOTAL: " + cantidad * Properties.Settings.Default.precioEntrada + "€";
             NuevaVenta = new Ventas(idVenta, sesion, cantidad, pago);
             _datosService.InsertarVenta(NuevaVenta);

@@ -15,7 +15,9 @@ namespace Proyecto_WPF__II_
         public static readonly RoutedUICommand Save = new RoutedUICommand
             ("Save", "Save", typeof(CustomCommands),
              null);
-
+        public static readonly RoutedUICommand Buy = new RoutedUICommand
+            ("Buy", "Buy", typeof(CustomCommands),
+                null);
         public static readonly RoutedUICommand Edit = new RoutedUICommand
             ("Edit", "Edit", typeof(CustomCommands),
             new InputGestureCollection { new KeyGesture(Key.E, ModifierKeys.Control) });
@@ -31,5 +33,11 @@ namespace Proyecto_WPF__II_
         public static readonly RoutedUICommand Help = new RoutedUICommand
             ("Help", "Help", typeof(CustomCommands),
             new InputGestureCollection() { new KeyGesture(Key.H, ModifierKeys.Control) });
+
+        public static readonly RoutedUICommand Delete = new RoutedUICommand
+            ("Delete", "Delete", typeof(CustomCommands),
+                null);
+        public static readonly RoutedUICommand EditSesion = new RoutedUICommand
+            ("EditSesion", "EditSesion", typeof(CustomCommands), null);
     }
 }

@@ -101,8 +101,7 @@ namespace Proyecto_WPF__II_
         {
             _conexion.Open();
             _comando = _conexion.CreateCommand();
-
-            _comando.CommandText = "DROP TABLE IF EXISTS peliculas";
+            _comando.CommandText = "DROP TABLE peliculas";
             _comando.ExecuteNonQuery();
 
             _conexion.Close();
@@ -185,9 +184,13 @@ namespace Proyecto_WPF__II_
             _comando = _conexion.CreateCommand();
 
             _comando.CommandText = "UPDATE salas SET numero=@numero, " +
-                                                "SET capacidad=@capacidad," +
-                                                "SET disponible=@disponible " +
+                                                "capacidad=@capacidad," +
+                                                "disponible=@disponible " +
                                                 "WHERE idSala=@idSala";
+            _comando.Parameters.Add("@idSala", SqliteType.Integer);
+            _comando.Parameters.Add("@numero", SqliteType.Text);
+            _comando.Parameters.Add("@capacidad", SqliteType.Integer);
+            _comando.Parameters.Add("@disponible", SqliteType.Integer);
             _comando.Parameters["@idSala"].Value = sala.IdSala;
             _comando.Parameters["@numero"].Value = sala.Numero;
             _comando.Parameters["@capacidad"].Value = sala.Capacidad;
@@ -242,7 +245,6 @@ namespace Proyecto_WPF__II_
 
             _conexion.Close();
         }
-
         public void ActualizarSesion(Sesiones sesion)
         {
             _conexion.Open();
@@ -256,6 +258,23 @@ namespace Proyecto_WPF__II_
             _comando.Parameters["@pelicula"].Value = sesion.Pelicula;
             _comando.Parameters["@sala"].Value = sesion.Sala;
             _comando.Parameters["@hora"].Value = sesion.Hora;
+            _comando.ExecuteNonQuery();
+
+            _conexion.Close();
+        }
+        public void EliminarSesion(Sesiones sesion)
+        {
+            _conexion.Open();
+            _comando = _conexion.CreateCommand();
+
+            _comando.CommandText = "DELETE FROM ventas WHERE sesion=@sesion";
+            _comando.Parameters.Add("@sesion", SqliteType.Integer);
+            _comando.Parameters["@sesion"].Value = sesion.IdSesion;
+            _comando.ExecuteNonQuery();
+
+            _comando.CommandText = "DELETE FROM sesiones WHERE idSesion=@idSesion";
+            _comando.Parameters.Add("@idSesion", SqliteType.Integer);
+            _comando.Parameters["@idSesion"].Value = sesion.IdSesion;
             _comando.ExecuteNonQuery();
 
             _conexion.Close();
@@ -287,6 +306,16 @@ namespace Proyecto_WPF__II_
             _conexion.Close();
 
             return ventas;
+        }
+        public void BorrarVentas()
+        {
+            _conexion.Open();
+            _comando = _conexion.CreateCommand();
+            _comando.CommandText = "DROP TABLE ventas";
+            _comando.ExecuteNonQuery();
+
+            _conexion.Close();
+            CrearTablas();
         }
 
         public void InsertarVenta(Ventas venta)

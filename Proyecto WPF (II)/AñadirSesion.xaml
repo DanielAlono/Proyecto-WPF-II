@@ -19,6 +19,13 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:CustomCommands.Save"
+                        Executed="CommandBinding_Executed_Save"
+                        CanExecute="CommandBinding_CanExecute_Save" />
+        <CommandBinding Command="local:CustomCommands.Exit"
+                        Executed="CommandBinding_Executed_Exit" />
+    </Window.CommandBindings>
     <Window.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Margin"
@@ -31,23 +38,36 @@
         <StackPanel DockPanel.Dock="Bottom"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-            <Button IsDefault="True"
-                    Background="Crimson"
+            <Button Background="Crimson"
                     Margin="5"
-                    Click="aceptarButton_Click">Guardar</Button>
-            <Button IsCancel="True">Cancelar</Button>
+                    Command="local:CustomCommands.Save">Guardar</Button>
+            <Button x:Name="cancelarButton"
+                    Command="local:CustomCommands.Exit">Cancelar</Button>
         </StackPanel>
+        <TextBlock DockPanel.Dock="Bottom"
+                   x:Name="avisoTextBlock"
+                   Visibility="Hidden"
+                   Margin="20"
+                   FontSize="40"
+                   HorizontalAlignment="Center"
+                   Foreground="IndianRed"
+                   FontWeight="Bold">¡SALA LLENA!</TextBlock>
         <StackPanel>
             <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">Seleccionar película</TextBlock>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      ItemsSource="{Binding Path=ListaPeliculas}"
                       x:Name="peliculasComboBox"
-                      SelectedIndex="{Binding Path=IdPelicula}"></ComboBox>
+                      DisplayMemberPath="Titulo"
+                      SelectedValue="{Binding Path=PeliculaSeleccionada}"></ComboBox>
             <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">Seleccionar sala</TextBlock>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      ItemsSource="{Binding Path=Salas}"
+                      DisplayMemberPath="IdSala"
                       x:Name="salasComboBox"
-                      SelectedIndex="{Binding Path=IdSala}"></ComboBox>
+                      SelectedValue="{Binding Path=NuevaSala}"></ComboBox>
             <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">Seleccionar hora para la sesión</TextBlock>
             <ComboBox Style="{StaticResource MaterialDesignComboBox}"
+                      ItemsSource="{Binding Path=Horarios}"
                       x:Name="horaComboBox"
                       SelectedValue="{Binding Path=Hora}"></ComboBox>
         </StackPanel>
